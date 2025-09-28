@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宿舍查寝系统 - 登录</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="page-title">宿舍查寝系统</h1>
+  <div class="input-group">
+    <div class="input-item">
+      <label for="username">账号</label>
+      <input type="text" id="username" placeholder="如：pz1（管理员）、N111（N区1楼）">
+    </div>
+    <div class="input-item">
+      <label for="password">密码</label>
+      <input type="password" id="password" placeholder="输入对应密码">
+    </div>
+  </div>
+  <button class="btn btn-primary" id="loginBtn">登录</button>
+  <button class="btn btn-warning" id="quitBtn">退出程序</button>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      if (!username || !password) {
+        alert("账号或密码不能为空！");
+        return;
+      }
+      let loginUser = null;
+      for (const key in DormData.userInfo) {
+        const user = DormData.userInfo[key];
+        if (user.username === username && user.password === password) {
+          loginUser = user;
+          break;
+        }
+      }
+      if (!loginUser) {
+        alert("账号或密码错误！");
+        return;
+      }
+      DormData.saveCurrentUser(loginUser);
+      if (loginUser.role === "admin") {
+        window.location.href = "area-select.html";
+      } else {
+        const { area, floor } = loginUser;
+        window.location.href = `dorm-list.html?area=${area}&floor=${floor}`;
+      }
+    });
+    document.getElementById("quitBtn").addEventListener("click", () => {
+      if (confirm("确定要退出吗？")) window.close();
+    });
+  </script>
+</body>
+</html>

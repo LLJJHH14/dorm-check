@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>选择区域</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="page-title">选择查寝区域</h1>
+  <div class="card-group">
+    <div class="card" id="areaN">
+      <div class="card-text">N区（女生区）</div>
+    </div>
+    <div class="card" id="areaS">
+      <div class="card-text">S区（男生区）</div>
+    </div>
+  </div>
+  <button class="btn btn-back" id="backBtn">返回登录页</button>
+
+  <script src="script.js"></script>
+  <script>
+    const currentUser = DormData.getCurrentUser();
+    if (!currentUser.username) window.location.href = "index.html";
+    document.getElementById("areaN").addEventListener("click", () => {
+      DormData.saveCurrentUser({ ...currentUser, area: "N" });
+      window.location.href = "floor-select.html";
+    });
+    document.getElementById("areaS").addEventListener("click", () => {
+      DormData.saveCurrentUser({ ...currentUser, area: "S" });
+      window.location.href = "floor-select.html";
+    });
+    document.getElementById("backBtn").addEventListener("click", DormData.logout);
+  </script>
+</body>
+</html>

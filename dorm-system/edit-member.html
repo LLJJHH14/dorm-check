@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>编辑成员信息</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="page-title">编辑成员信息</h1>
+
+  <div class="edit-form">
+    <div class="form-item">
+      <label>成员头像</label>
+      <img id="memberPhoto" src="images/default-photo.png" alt="头像" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto; display: block;">
+      <p class="tips">头像已固定，不可修改</p>
+    </div>
+    <div class="form-item">
+      <label>成员姓名</label>
+      <input type="text" id="memberName" disabled style="background: #f5f5f5; color: #666;">
+    </div>
+    <div class="form-item">
+      <label for="memberStatus">查寝状态</label>
+      <select id="memberStatus">
+        <option value="正常">正常</option>
+        <option value="请假">请假</option>
+        <option value="未归">未归</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label for="memberRemark">备注（选填）</label>
+      <textarea id="memberRemark" placeholder="如：请假至XX日"></textarea>
+    </div>
+    <button class="btn btn-primary" id="saveBtn">保存修改</button>
+  </div>
+
+  <button class="btn btn-back" id="backBtn" style="margin-top: 20px;">返回宿舍详情</button>
+
+  <script src="script.js"></script>
+  <script>
+    const tempDorm = DormData.getTempDorm();
+    const { area, floor, dormNum, memberIdx } = tempDorm;
+    const dormData = DormData.initDormData();
+    if (!area || !floor || !dormNum || memberIdx === undefined) {
+      window.location.href = "index.html";
+    }
+
+    const currentMember = dormData[area][floor][dormNum][memberIdx];
+    document.getElementById("memberPhoto").src = currentMember.photo;
+    document.getElementById("memberName").value = currentMember.name;
+    document.getElementById("memberStatus").value = currentMember.status;
+    document.getElementById("memberRemark").value = currentMember.remark || "";
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      currentMember.status = document.getElementById("memberStatus").value;
+      currentMember.remark = document.getElementById("memberRemark").value.trim();
+      DormData.updateDormData(dormData);
+      alert("保存成功！");
+      window.location.href = `dorm-detail.html?area=${area}&floor=${floor}&dormnum=${dormNum}`;
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = `dorm-detail.html?area=${area}&floor=${floor}&dormnum=${dormNum}`;
+    });
+  </script>
+</body>
+</html>

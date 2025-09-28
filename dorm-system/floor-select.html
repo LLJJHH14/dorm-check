@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>选择楼层</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="page-title" id="areaTitle">N区 - 选择楼层</h1>
+
+  <div class="card-group">
+    <div class="card floor-card" data-floor="1">
+      <div class="card-text">1楼</div>
+    </div>
+    <div class="card floor-card" data-floor="2">
+      <div class="card-text">2楼</div>
+    </div>
+    <div class="card floor-card" data-floor="3">
+      <div class="card-text">3楼</div>
+    </div>
+    <div class="card floor-card" data-floor="4">
+      <div class="card-text">4楼</div>
+    </div>
+    <div class="card floor-card" data-floor="5">
+      <div class="card-text">5楼</div>
+    </div>
+    <div class="card floor-card" data-floor="6">
+      <div class="card-text">6楼</div>
+    </div>
+  </div>
+
+  <button class="btn btn-back" id="backBtn">返回区域选择</button>
+
+  <script src="script.js"></script>
+  <script>
+    const currentUser = DormData.getCurrentUser();
+    if (!currentUser.username || !currentUser.area) {
+      window.location.href = "index.html";
+    }
+    document.getElementById("areaTitle").textContent = `${currentUser.area}区 - 选择楼层`;
+    document.querySelectorAll(".floor-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const floor = card.dataset.floor;
+        window.location.href = `dorm-list.html?area=${currentUser.area}&floor=${floor}`;
+      });
+    });
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "area-select.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宿舍列表</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="page-title" id="dormTitle">N区1楼 - 宿舍列表</h1>
+
+  <button class="btn btn-warning" id="exportBtn" style="max-width: 200px; margin-bottom: 20px;">
+    导出请假/未归数据
+  </button>
+
+  <button class="btn btn-primary" id="clearBtn" style="max-width: 200px; margin-bottom: 20px;">
+    清空本楼层状态
+  </button>
+
+  <div class="dorm-list" id="dormListContainer">
+    <!-- 宿舍会自动生成 -->
+  </div>
+
+  <button class="btn btn-back" id="backBtn" style="margin-top: 30px;">返回楼层选择</button>
+
+  <script src="script.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const area = urlParams.get("area") || "N";
+    const floor = urlParams.get("floor") || "1";
+
+    document.getElementById("dormTitle").textContent = `${area}区${floor}楼 - 宿舍列表`;
+
+    const dormListContainer = document.getElementById("dormListContainer");
+    for (let room = 1; room <= 30; room++) {
+      const dormNum = `${area}${floor}${String(room).padStart(2, "0")}`;
+      const dormItem = document.createElement("div");
+      dormItem.className = "dorm-item";
+      dormItem.textContent = dormNum;
+      dormItem.addEventListener("click", () => {
+        window.location.href = `dorm-detail.html?area=${area}&floor=${floor}&dormnum=${dormNum}`;
+      });
+      dormListContainer.appendChild(dormItem);
+    }
+
+    // 导出请假/未归数据（包含所有宿舍的异常状态）
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const dormData = DormData.initDormData();
+      const floorDormData = dormData[area][floor];
+      let exportText = `【${area}区${floor}楼查寝异常记录】\n区域\t楼层\t宿舍号\t姓名\t状态\t备注\n`;
+      let abnormalCount = 0;
+
+      for (const dormNum in floorDormData) {
+        floorDormData[dormNum].forEach(member => {
+          if (member.status === "请假" || member.status === "未归") {
+            exportText += `${area}区\t${floor}楼\t${dormNum}\t${member.name}\t${member.status}\t${member.remark || "无"}\n`;
+            abnormalCount++;
+          }
+        });
+      }
+
+      if (abnormalCount === 0) {
+        alert("本楼层无请假/未归人员！");
+        return;
+      }
+      DormData.copyToClipboard(exportText);
+    });
+
+    // 清空本楼层所有状态为“正常”
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      DormData.clearStatus(area, floor);
+      window.location.reload();
+    });
+
+    // 返回楼层选择页
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "floor-select.html";
+    });
+  </script>
+</body>
+</html>

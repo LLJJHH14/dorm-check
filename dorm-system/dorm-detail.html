@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宿舍成员详情</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="page-title" id="detailTitle">N101宿舍 - 成员详情</h1>
+
+  <div class="member-grid" id="memberGrid">
+    <!-- 成员卡片会自动生成 -->
+  </div>
+
+  <div style="display: flex; justify-content: space-between; max-width: 600px; margin: 0 auto;">
+    <button class="btn btn-back" id="prevDormBtn">上一个宿舍</button>
+    <button class="btn btn-back" id="nextDormBtn">下一个宿舍</button>
+  </div>
+
+  <button class="btn btn-back" id="backBtn" style="margin-top: 20px;">返回宿舍列表</button>
+
+  <script src="script.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const area = urlParams.get("area");
+    const floor = urlParams.get("floor");
+    const dormNum = urlParams.get("dormnum");
+    if (!area || !floor || !dormNum) {
+      window.location.href = "index.html";
+    }
+
+    // 确保标题显示当前宿舍号
+    document.getElementById("detailTitle").textContent = `${dormNum}宿舍 - 成员详情`;
+    const memberGrid = document.getElementById("memberGrid");
+    const dormData = DormData.initDormData();
+    const members = dormData[area][floor][dormNum];
+
+    // 循环生成6个成员卡片
+    members.forEach((member, index) => {
+      const memberCard = document.createElement("div");
+      memberCard.className = "member-card";
+      memberCard.innerHTML = `
+        <img src="${member.photo}" alt="${member.name}" class="member-photo" data-index="${index}">
+        <div class="member-name">${member.name}</div>
+        <div class="member-status">状态：${member.status}</div>
+      `;
+      // 点击头像跳转到编辑页
+      memberCard.querySelector(".member-photo").addEventListener("click", (e) => {
+        const memberIdx = e.target.dataset.index;
+        DormData.saveTempDorm({ area, floor, dormNum, memberIdx });
+        window.location.href = "edit-member.html";
+      });
+      memberGrid.appendChild(memberCard);
+    });
+
+    // 上一个宿舍逻辑
+    document.getElementById("prevDormBtn").addEventListener("click", () => {
+      const currentRoom = parseInt(dormNum.replace(/[^0-9]/g, ""));
+      if (currentRoom > 1) {
+        const prevRoom = currentRoom - 1;
+        const prevDormNum = `${area}${floor}${String(prevRoom).padStart(2, "0")}`;
+        window.location.href = `dorm-detail.html?area=${area}&floor=${floor}&dormnum=${prevDormNum}`;
+      } else {
+        alert("已是第一个宿舍");
+      }
+    });
+
+    // 下一个宿舍逻辑
+    document.getElementById("nextDormBtn").addEventListener("click", () => {
+      const currentRoom = parseInt(dormNum.replace(/[^0-9]/g, ""));
+      if (currentRoom < 30) {
+        const nextRoom = currentRoom + 1;
+        const nextDormNum = `${area}${floor}${String(nextRoom).padStart(2, "0")}`;
+        window.location.href = `dorm-detail.html?area=${area}&floor=${floor}&dormnum=${nextDormNum}`;
+      } else {
+        alert("已是最后一个宿舍");
+      }
+    });
+
+    // 修复返回按钮逻辑
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = `dorm-list.html?area=${area}&floor=${floor}`;
+    });
+  </script>
+</body>
+</html>

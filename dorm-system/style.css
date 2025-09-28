@@ -1,0 +1,180 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+body {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+}
+.page-title {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 24px;
+  margin: 30px 0;
+}
+.card-group {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+.card {
+  width: 200px;
+  height: 150px;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.card-text {
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: bold;
+}
+.input-group {
+  max-width: 400px;
+  margin: 0 auto 30px;
+}
+.input-item {
+  margin-bottom: 20px;
+}
+.input-item label {
+  display: block;
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.input-item input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.btn {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 15px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-primary {
+  background-color: #2c3e50;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #1a252f;
+}
+.btn-warning {
+  background-color: #e74c3c;
+  color: white;
+}
+.btn-warning:hover {
+  background-color: #c0392b;
+}
+.btn-back {
+  background-color: white;
+  color: #2c3e50;
+  border: 1px solid #2c3e50;
+}
+.dorm-list {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.dorm-item {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+.dorm-item:hover {
+  background-color: #f1f1f1;
+}
+.member-grid {
+  max-width: 600px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.member-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.member-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.member-name {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+.member-status {
+  font-size: 14px;
+  color: #666;
+}
+.edit-form {
+  max-width: 400px;
+  margin: 30px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.form-item {
+  margin-bottom: 25px;
+}
+.form-item label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 16px;
+}
+.form-item select,
+.form-item textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.form-item textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.tips {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  margin: 10px 0;
+}
